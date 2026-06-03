@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { formatBytes, formatRelativeTime } from "@/lib/format";
 import { BackLink } from "@/components/BackLink";
 import { Button } from "@/components/Button";
+import { ConversationItem } from "@/components/ConversationItem";
 import { EmptyState } from "@/components/EmptyState";
 import { StatusBadge } from "@/components/StatusBadge";
 import { LoadingDots } from "@/components/LoadingDots";
@@ -117,34 +117,7 @@ export default function DocumentPage() {
       {conversations && conversations.length > 0 ? (
         <ul className="space-y-2">
           {conversations.map((c) => (
-            <li key={c.id}>
-              <Link
-                href={`/documents/${docId}/chat/${c.id}`}
-                className="group flex items-center justify-between gap-4 rounded-xl border border-border bg-elevated/70 px-5 py-4 hover:border-border-strong hover:bg-elevated transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage/40"
-              >
-                <div className="min-w-0">
-                  <p className="font-medium text-ink truncate">{c.title}</p>
-                  <p className="text-xs text-ink-faint mt-0.5">
-                    Updated {formatRelativeTime(c.updated_at)}
-                  </p>
-                </div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-ink-faint group-hover:text-ink group-hover:translate-x-0.5 transition-all shrink-0"
-                  aria-hidden
-                >
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
-              </Link>
-            </li>
+            <ConversationItem key={c.id} conversation={c} documentId={docId} />
           ))}
         </ul>
       ) : (
